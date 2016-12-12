@@ -14,7 +14,7 @@
 <div class="row">
     <div class="span8 offset1">
         <h2>Purchaseable items</h2>
-        <form action="sales" method="POST">
+        <form action="/sales/additem" method="POST">
           <div class="row">
             {sales}
             <div id="row">
@@ -24,7 +24,7 @@
             </div>
             {/sales}
           </div>
-          <input type="submit" value="Submit">
+          <input type="submit" value="Purchase">
         </form>
     </div>
 </div>
