@@ -23,8 +23,9 @@
             {order}
                 <td>{name}</td>
                 <td>{quantity}</td>
-                <td>{price}</td>
-                {/order}
+                <td>{price}</td> 
+                <td>{total}</td>
+            {/order}
             </tr>
         
         </tbody>

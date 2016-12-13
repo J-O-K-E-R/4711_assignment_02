@@ -31,7 +31,7 @@ class Order extends CI_Model {
         if($which == null) 
             return;
         
-        $this->items[$which]++;
+        $this->items[$which] += $num;
     }
     
     public function receipt() {
