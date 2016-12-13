@@ -14,12 +14,34 @@ class Sales extends Application{
         //     $this->keep_shopping();
         // else
             // $this->summarize();
+        
+        
+        
+        //supposed to be for loading css files
         $this->load->helper('url');
         foreach($_POST as $key=>$value){
             if($value != '0') {
                 file_put_contents(__DIR__ . '/../logs/sales.log', "$value,$key\n", FILE_APPEND);
             }
         }
+        // identify all of the order files
+        $this->load->helper('directory');
+        $candidates = directory_map('../data/');
+        $parms = array();
+        foreach ($candidates as $filename) {
+           if (substr($filename,0,5) == 'order') {
+               // restore that order object
+               $order = new Order ('../data/' . $filename);
+            // setup view parameters
+               $parms[] = array(
+                   'number' => $order->number,
+                   'datetime' => $order->datetime,
+                   'total' => $order->total()
+                       );
+            }
+        }
+        $this->data['orders'] = $parms;
+        
         $this->data['pagetitle'] = 'Sales';
         $this->data['pagebody'] = 'summary';
         $this->render();
@@ -71,28 +93,45 @@ class Sales extends Application{
         $this->index();
     }
     
-    public function add($what) {
+    public function sell(){
         $order = new Order($this->session->userdata('order'));
-        $order->additem($what);
-        $this->session->set_userdata('order', (array)$order);
-        $this->keep_shopping();
-        redirect('/sales/neworder');
+    	
+        foreach ($this->stock->getStock() as $stock) {
+    		$amount = $this->input->post($stock->id);
+    		if ($amount > 0 && $amount <= $stock->quantity) {
+    			$this->stock->sellStock($stock->id,$amount);
+                $order->additem($stock->id, $amount);
+                
+                $this->session->set_userdata('order', (array)$order);
+    		}
+    	}
+        
+        $stuff = $order->receipt();
+        $this->data['receipt'] = $this->parsedown->parse($stuff);
+        
+        $order->save();
+        
+        $this->data['order'] = $order->items;
+        $this->data['pagebody'] = 'sales_order';
+        $this->data['total'] = $order->total();
+        //unsets order for the next one.
+        $this->session->unset_userdata('order');
+    	$this->render();
     }
     
-    public function checkout() {
+    /*public function checkout() {
         $order = new Order($this->session->userdata('order'));
         // ignore invalid requests
         if (!$order->validate())
             redirect('/sales/neworder');
+
         $order->save();
+        
+        $stuff = $order->receipt();
+        $this->data['receipt'] = $this->parsedown->parse($stuff);
+        
         $this->session->unset_userdata('order');
         redirect('/sales');
-    }
-    
-    public function examine($which) {
-        $order = new Order ('../data/order' . $which . '.xml');
-        $stuff = $order->receipt();
-        $this->data['content'] = $this->parsedown->parse($stuff);
-        $this->render();
-    }
+    }*/
+
 }

@@ -9,6 +9,17 @@ class Order extends CI_Model {
             foreach($state as $key => $value)
             $this->$key = $value;
         }
+        elseif ($state != null) {
+            $xml = simplexml_load_file($state);
+            $this->number = (int) $xml->number;
+            $this->datetime = (string) $xml->datetime;
+            $this->items = array();
+            foreach ($xml->item as $item) {
+                $key = (string) $item->code;
+                $quantity = (int) $item->quantity;
+                $this->items[$key] = $quantity;
+            }
+        }
         else {
             $this->number = 0;
             $this->datetime = null;
@@ -20,10 +31,7 @@ class Order extends CI_Model {
         if($which == null) 
             return;
         
-        if(!isset($this->items[$which]))
-            $this->items[$which] = 1;
-        else
-            $this->items[$which] += $num;
+        $this->items[$which]++;
     }
     
     public function receipt() {
@@ -37,30 +45,6 @@ class Order extends CI_Model {
         }
         $result .= PHP_EOL . 'Total: $' . number_format($total, 2) . PHP_EOL;
         return $result;
-    }
-    
-    public function validate() {
-        $flag = true;
-        foreach($this->items as $key => $value) {
-            $item = $this->stock->get($key);
-            $item = json_decode(json_encode($item), true);
-            if($item['quantity'] < $value){
-                $flag = false;
-            }
-        }
-        // decrement stock quantity
-        if($flag){
-            foreach($this->items as $key => $value) {
-                $item = $this->stock->get($key);
-                $item = json_decode(json_encode($item), true);
-                // decrement quantity & increment numSold
-                $item['quantity'] -= $value;
-                $item['num_sold'] += 1;
-                // update record in DB
-                $this->stock->update($item);
-            }
-        }
-        return $flag;
     }
     
     public function save() {
