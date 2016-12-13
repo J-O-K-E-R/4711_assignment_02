@@ -10,15 +10,25 @@ class Sales extends Application{
     
 	// like all the other controllers, pulls data from the db, throws it into the view.
     public function index(){
-        if($this->session->has_userdata('order'))
-            $this->keep_shopping();
-        else
-            $this->summarize();
+        // if($this->session->has_userdata('order'))
+        //     $this->keep_shopping();
+        // else
+            // $this->summarize();
         $this->load->helper('url');
         foreach($_POST as $key=>$value){
             if($value != '0') {
                 file_put_contents(__DIR__ . '/../logs/sales.log', "$value,$key\n", FILE_APPEND);
             }
+        }
+        $this->data['pagetitle'] = 'Sales';
+        $this->data['pagebody'] = 'summary';
+        $this->render();
+    }
+    
+    public function neworder() {
+        if(! $this->session->has_userdata('order')) {
+            $order = new Order();
+            $this->session->set_userdata('order', (array) $order);
         }
 
         $recipeData = $this->recipes->getRecipes();
@@ -36,36 +46,22 @@ class Sales extends Application{
         }
 
         $this->data['sales'] = $recipes;
-
-        $this->data['pagetitle'] = 'Sales';
-        $this->data['pagebody'] = 'sales';
+        
+        $this->data['pagebody'] = 'shopping';
+        $this->data['pagetitle'] = 'Order';
         $this->render();
     }
     
-    public function neworder() {
-        if(! $this->session->has_userdata('order')) {
-            $order = new Order();
-            $this->session->set_userdata('order', (array) $order);
-        }
+    // public function keep_shopping() {
+    //     $order = new Order($this->session->userdata('order'));
+    //     $stuff = $order->receipt();
+    //     $this->data['receipt'] = $this->parsedown->parse($stuff);
         
-        $this->keep_shopping();
-    }
-    
-    public function summarize() {
-        $this->data['pagebody'] = 'summary';
-        $this->render('template');
-    }
-    
-    public function keep_shopping() {
-        $order = new Order($this->session->userdata('order'));
-        $stuff = $order->receipt();
-        $this->data['receipt'] = $this->parsedown->parse($stuff);
-        
-        $this->data['pagebody'] = 'sales';
-        $source = $this->stock->getStock();
-        $this->data['stock'] = $source;
-        $this->render('template-shopping');
-    }
+    //     $this->data['pagebody'] = 'sales';
+    //     $source = $this->stock->getStock();
+    //     $this->data['stock'] = $source;
+    //     $this->render('template');
+    // }
     
     public function cancel() {
         if($this->session->has_userdata('order')) {
