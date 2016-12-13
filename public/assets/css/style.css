@@ -4,3 +4,62 @@ body {background-color: #D52B1E;}
 #content {width:100%; margin-left:5% auto;margin-right:5% auto;}
 #footer {font-size: small; font-style:italic;text-align:center;}
 .row>div {margin-bottom:10px;}
+
+#recipe_name {
+	width:200px;
+}
+
+#ingredients {
+	width:200px;
+}
+
+#left {
+  float: left;
+  display: block;
+  width: 40%;
+  margin-bottom: 10px;
+}
+#right {
+  float: right;
+  display: block;
+  width:50%
+}
+#row {
+  border-bottom: 2px solid black;
+}
+
+#stock_name {
+	width:200px;
+}
+
+#stock_price {
+	width:100px;
+}
+
+#stock_quantity {
+	width: 100px;
+}
+
+#supply_name {
+	width:200px;
+}
+
+#supply_onHand {
+	width:100px;
+}
+
+#CPS {
+	width:100px;
+}
+
+#containers {
+	width:100px;
+}
+
+#IPC {
+	width:100px;
+}
+
+#cost {
+	width:100px;
+}

@@ -35,13 +35,9 @@
             <td>
                 <a class="btn btn-default" role="button" href="/administrator/edit_stock/{id}/">Edit</a>
             </td>
-            <td>
-                <a class='btn btn-danger' role="button" href="/administrator/delete_stock/{id}/">Delete</a>
-            </td>
         </tr>
         {/stockRow}
     </table>
-    <a class="btn btn-default" role="button" href="/administrator/add_stock/">Add</a>
     <br><br>
     <h4>Supplies</h4>
     <table>

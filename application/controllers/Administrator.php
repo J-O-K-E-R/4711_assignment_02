@@ -6,15 +6,22 @@ class Administrator extends Application{
     
     function __construct(){
         parent::__construct();
+
         $has_access = FALSE;
         $role = $this->session->userdata('userrole');
+        if($role == 'user' || $role == 'administrator') {
             $has_access = TRUE;
+        }
+        if($has_access == FALSE){
+            redirect('index.php');
+        }
 
     }
     
 	// like all the other controllers, pulls data from the db, throws it into the view.
 	// do each one individually. 
     public function index(){
+        $this->load->helper('url');
         $recipesData = $this->recipes->getRecipes();
         $recipes = array();
         
@@ -84,18 +91,9 @@ class Administrator extends Application{
         redirect('/administrator/', 'refresh');
     }
 
-    public function add_stock($error = ""){
-        $this->data['id'] = null;
-        $this->data['name'] = null;
-        $this->data['price'] = null;
-        $this->data['quantity'] = null;
-        $this->data['pagetitle'] = 'Add Stock';
-        $this->data['pagebody'] = 'edit_stock';
-        $this->data['error'] = $error;
-        $this->render();
-    }
-    public function edit_stock($id = null){
+    public function edit_stock($id = null, $error = ""){
         $item = $this->stock->get($id);
+        $this->data['error'] = $error;
         $this->data['id'] = $id;
         $this->data['name'] = $item->name;
         $this->data['price'] = $item->price;
@@ -112,18 +110,10 @@ class Administrator extends Application{
         $item->quantity = $this->input->post('quantity');
         if(trim($item->name) == null || trim($item->name) == "" || trim($item->price) == null || !is_numeric($item->price)|| trim($item->price) == "" || trim($item->quantity) == null || trim($item->quantity) == "" || !is_numeric($item->quantity)) {
             $this->data['error'] = "Invalid inputs";
-            redirect('/administrator/add_stock');
-        }
-        else if ($item->id == null) {
-            $this->stock->create($item);
+            redirect('/administrator/edit_stock/'.$item->id);
         } else {
             $this->stock->update($item);
         }
-        redirect('/administrator/', 'refresh');
-    }
-
-    public function delete_stock($id = null){
-        $this->stock->delete($id);
         redirect('/administrator/', 'refresh');
     }
 

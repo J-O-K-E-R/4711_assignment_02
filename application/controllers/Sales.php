@@ -14,6 +14,12 @@ class Sales extends Application{
             $this->keep_shopping();
         else
             $this->summarize();
+        $this->load->helper('url');
+        foreach($_POST as $key=>$value){
+            if($value != '0') {
+                file_put_contents(__DIR__ . '/../logs/sales.log', "$value,$key\n", FILE_APPEND);
+            }
+        }
 
         $recipeData = $this->recipes->getRecipes();
         $recipes = array();

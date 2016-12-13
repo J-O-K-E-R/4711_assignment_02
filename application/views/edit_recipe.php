@@ -1,3 +1,5 @@
+<link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>css/style.css">
+
 <form method="POST" action="/Administrator/save_recipe">
     <p>{error}</p>
     <table class="table">
@@ -11,14 +13,14 @@
             <tr>
                 <td>Recipe Name</td>
                 <td>
-                    <input class="form-control" name="name" style="width:200px;"/>
+                    <input class="form-control" name="name" id="recipe_name"/>
                 </td>
             </tr>
             {supplies}
             <tr>
                 <td>Number of: {name}s</td>
                 <td>
-                    <input class="form-control" name="{id}" type="numeric" value="0" style="width:200px;"/>
+                    <input class="form-control" name="{id}" type="numeric" value="0" id="ingredients"/>
                 </td>
             </tr>
             {/supplies}

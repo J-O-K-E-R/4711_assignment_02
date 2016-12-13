@@ -31,12 +31,18 @@ class Recipes extends CI_Model {
     
     // get the ingredients (description) of a single recipe
     public function getIngredients($recipeID){
-        $sql = sprintf("SELECT supplies.name from SUPPLIES inner join RECIPESUPPLIES on SUPPLIES.id = RECIPESUPPLIES.supplyID inner join RECIPES on RECIPESUPPLIES.recipeID = RECIPES.ID where recipeID = %d", $recipeID);
-        $query = $this->db->query($sql);
+		$sql = sprintf("SELECT supplies.name from SUPPLIES inner join RECIPESUPPLIES on SUPPLIES.id = RECIPESUPPLIES.supplyID inner join RECIPES on RECIPESUPPLIES.recipeID = RECIPES.ID where recipeID = %d", $recipeID); 
+        $query = $this->db->query($sql); 
         return $query->result();
     }
     
-    public function createRecipe($recipe, $ingredients){
+    public function getIngredientAmounts($recipeID){
+        $sql = sprintf("SELECT supplies.id, amount from SUPPLIES inner join RECIPESUPPLIES on SUPPLIES.id = RECIPESUPPLIES.supplyID inner join RECIPES on RECIPESUPPLIES.recipeID = RECIPES.ID where recipeID = %d", $recipeID); 
+        $query = $this->db->query($sql); 
+        return $query->result();
+    }
+    
+    public function createRecipe($recipe, $ingredients, $price){
         // create that entry
         $sql = sprintf("INSERT into RECIPES (name) VALUES ('%s')", $recipe->name);
         $this->db->query($sql);
@@ -54,11 +60,13 @@ class Recipes extends CI_Model {
             }
             $sql2 .= sprintf("(%d, %d, %d)", $insert_id, $key, $value);
         }
-        
         $this->db->query($sql2);
+        
+        $sql3 = sprintf("INSERT into STOCK (name, price, quantity) VALUES ('%s', %d, 0)", $recipe->name, $price);
+        $this->db->query($sql3);
     }
     
-    public function updateRecipe($recipe, $ingredients){
+    public function updateRecipe($recipe, $ingredients, $price){
         $sql1 = sprintf("UPDATE RECIPES set name = '%'", $recipe->name);
         $this->db->query($sql1);
         
@@ -77,6 +85,9 @@ class Recipes extends CI_Model {
         }
         
         $this->db->query($sql3);
+        
+        $sql4 = sprintf("UPDATE STOCK set name = '%s', price = %d, where id = %d", $recipe->name, $price, $recipe->id);
+        $this->db->query($sql4);
     }
     
     public function deleteRecipe($recipeID){
@@ -85,5 +96,8 @@ class Recipes extends CI_Model {
         
         $sql2 = sprintf("DELETE from RECIPES where id = %d", $recipeID);
         $this->db->query($sql2);
+        
+        $sql3 = sprintf("DELETE from STOCK where id = %d", $recipeID);
+        $this->db->query($sql3);
     }
 }

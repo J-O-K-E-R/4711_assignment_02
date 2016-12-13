@@ -1,3 +1,4 @@
+<link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>css/style.css">
 <form method="POST" action="/Administrator/save_stock">
     <p>{error}</p>
     <table class="table">
@@ -11,19 +12,19 @@
             <tr>
                 <td>Name</td>
                 <td>
-                    <input class="form-control" name="name" style="width:200px;" value="{name}"/>
+                    <input class="form-control" name="name" id="stock_name" value="{name}"/>
                 </td>
             </tr>
             <tr>
                 <td>Price</td>
                 <td>
-                    <input class="form-control" name="price" type="numeric" style="width:100px;" value="{price}"/>
+                    <input class="form-control" name="price" type="numeric" id="stock_price" value="{price}"/>
                 </td>
             </tr>
             <tr>
                 <td>Quantity</td>
                 <td>
-                    <input class="form-control" name="quantity" style="width:100px;" value="{quantity}"/>
+                    <input class="form-control" name="quantity" id="stock_quantity" value="{quantity}"/>
                 </td>
                 <input name="id" type="hidden" value="{id}"/>
             </tr>

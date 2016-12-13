@@ -1,3 +1,4 @@
+<link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>css/style.css">
 <form method="POST" action="/Administrator/save_supply">
     <p>{error}</p>
     <table class="table">
@@ -11,37 +12,37 @@
             <tr>
                 <td>Name</td>
                 <td>
-                    <input class="form-control" name="name" style="width:200px;" value="{name}"/>
+                    <input class="form-control" name="name" id="supply_name" value="{name}"/>
                 </td>
             </tr>
             <tr>
                 <td>onHand</td>
                 <td>
-                    <input class="form-control" name="onHand" type="numeric" style="width:100px;" value="{onHand}"/>
+                    <input class="form-control" name="onHand" type="numeric" id="supply_onHand" value="{onHand}"/>
                 </td>
             </tr>
             <tr>
                 <td>containersPerShipment</td>
                 <td>
-                    <input class="form-control" name="containersPerShipment" type="numeric" style="width:100px;" value="{containersPerShipment}"/>
+                    <input class="form-control" name="containersPerShipment" type="numeric" id="CPS" value="{containersPerShipment}"/>
                 </td>
             </tr>
             <tr>
                 <td>containers</td>
                 <td>
-                    <input class="form-control" name="containers" type="numeric" style="width:100px;" value="{containers}"/>
+                    <input class="form-control" name="containers" type="numeric" id="containers" value="{containers}"/>
                 </td>
             </tr>
             <tr>
                 <td>itemsPerContainer</td>
                 <td>
-                    <input class="form-control" name="itemsPerContainer" type="numeric" style="width:100px;" value="{itemsPerContainer}"/>
+                    <input class="form-control" name="itemsPerContainer" type="numeric" id="IPC"  value="{itemsPerContainer}"/>
                 </td>
             </tr>
             <tr>
                 <td>cost</td>
                 <td>
-                    <input class="form-control" name="cost" type="numeric" style="width:100px;" value="{cost}"/>
+                    <input class="form-control" name="cost" type="numeric" id="cost" value="{cost}"/>
                     <input name="id" type="hidden" value="{id}"/>
                 </td>
             </tr>

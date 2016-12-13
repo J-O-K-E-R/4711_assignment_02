@@ -25,7 +25,6 @@ class Application extends CI_Controller
 		$this->data = array ();
 		$this->data['pagetitle'] = 'Quotes CMS';
 		$this->data['ci_version'] = (ENVIRONMENT === 'development') ? 'CodeIgniter Version <strong>'.CI_VERSION.'</strong>' : '';
-        
         $this->data['userrole'] = $this->session->userdata('userrole');
         if($this->data['userrole'] == NULL)
         {
