@@ -192,5 +192,4 @@ class Sales extends Application{
         $this->session->unset_userdata('order');
         redirect('/sales');
     }*/
-
 }
