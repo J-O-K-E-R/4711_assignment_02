@@ -24,14 +24,21 @@ class Order extends CI_Model {
             $this->number = 0;
             $this->datetime = null;
             $this->items = array();
+            $this->details = array();
         }
     }
     
-    public function addItem($which=null, $num) {
-        if($which == null) 
-            return;
+    public function addItem($which=null, $name, $num, $price) {
+        //if($which == null) 
+          //  return;
+        
+        if (!isset($this->items[$which])) 
+            $this->items[$which] = 0;
         
         $this->items[$which] += $num;
+        
+        $this->details[] = array('id'=>$which, 'name'=>$name, 'quantity'=>$num, 'price'=>$price);
+        
     }
     
     public function receipt() {
@@ -39,7 +46,7 @@ class Order extends CI_Model {
         $result = $this->data['pagetitle'] . ' ' . PHP_EOL;
         $result .= date(DATE_ATOM) . PHP_EOL;
         foreach($this->items as $key => $value) {
-            $menu = $this->menu->get($key);
+            $menu = $this->stock->get($key);
             $result .= '- ' . $value . ' ' . $menu->name . PHP_EOL;
             $total += $value * $menu->price;
         }

@@ -11,9 +11,11 @@
     <table class="table">
         <thead>
             <tr>
+            
                 <th>Item Name</th>
                 <th>Quantity</th>
                 <th>Price</th>
+                <th>SubTotals</th>
                 <th>Total</th>
             </tr>
         </thead>
@@ -23,13 +25,21 @@
             {order}
                 <td>{name}</td>
                 <td>{quantity}</td>
-                <td>{price}</td> 
-                <td>{total}</td>
+                <td>${price}</td> 
+                <td>${subtotal}</td>
             {/order}
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>${totalcost}</td>
             </tr>
         
         </tbody>
     </table>
+    <div>
     </div>
     <div class="w3-third w3-center">
         <div class="panel panel-default">
@@ -40,9 +50,7 @@
                 {receipt}
             </div>
             <div class="panel-footer">
-                <a class="btn btn-default btn-primary" role="button" href="/sales/checkout">Checkout</a>
-                <a class="btn btn-default" role="button" href="/sales/cancel">Cancel Order</a> 
             </div>
         </div>
-    </div> 
+    </div>
 </div>

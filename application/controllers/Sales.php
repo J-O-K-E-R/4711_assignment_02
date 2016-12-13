@@ -40,6 +40,23 @@ class Sales extends Application{
                        );
             }
         }
+        
+        $recipeData = $this->recipes->getRecipes();
+        $recipes = array();
+
+        foreach($recipeData as $recipe){
+            $ingredients = $this->recipes->getIngredients($recipe->id);
+            $strIngredients = "";
+            foreach($ingredients as $ingredient){
+                $strIngredients .= ' ' . $ingredient->name;
+            }
+                
+            $stock = $this->stock->get($recipe->id);
+            $recipes[] = array('name' => $recipe->name, 'description' => $strIngredients, 'price' => $stock->price, 'id' => $stock->id);
+        }
+
+        $this->data['sales'] = $recipes;
+        
         $this->data['orders'] = $parms;
         
         $this->data['pagetitle'] = 'Sales';
@@ -48,10 +65,13 @@ class Sales extends Application{
     }
     
     public function neworder() {
+        
         if(! $this->session->has_userdata('order')) {
-            $order = new Order();
-            $this->session->set_userdata('order', (array) $order);
+            $this->session->unset_userdata('order');
         }
+        $order = new Order();
+        $this->session->set_userdata('order', (array) $order);
+        
 
         $recipeData = $this->recipes->getRecipes();
         $recipes = array();
@@ -64,7 +84,7 @@ class Sales extends Application{
             }
                 
             $stock = $this->stock->get($recipe->id);
-            $recipes[] = array('name' => $recipe->name, 'description' => $strIngredients, 'price' => $stock->price);
+            $recipes[] = array('name' => $recipe->name, 'description' => $strIngredients, 'price' => $stock->price, 'id' => $stock->id);
         }
 
         $this->data['sales'] = $recipes;
@@ -94,15 +114,37 @@ class Sales extends Application{
     }
     
     public function sell(){
+        
+        $recipeData = $this->recipes->getRecipes();
+        $recipes = array();
+
+        foreach($recipeData as $recipe){
+            $ingredients = $this->recipes->getIngredients($recipe->id);
+            $strIngredients = "";
+            foreach($ingredients as $ingredient){
+                $strIngredients .= ' ' . $ingredient->name;
+            }
+                
+            $stock = $this->stock->get($recipe->id);
+            $recipes[] = array('name' => $recipe->name, 'description' => $strIngredients, 'price' => $stock->price, 'id' => $stock->id);
+        }
+        
         $order = new Order($this->session->userdata('order'));
-    	
+        $sellable = array();
         foreach ($this->stock->getStock() as $stock) {
     		$amount = $this->input->post($stock->id);
+            
     		if ($amount > 0 && $amount <= $stock->quantity) {
     			$this->stock->sellStock($stock->id,$amount);
-                $order->additem($stock->id, $amount);
-                
-                $this->session->set_userdata('order', (array)$order);
+                foreach($recipes as $recipe)
+                {
+                    if($recipe['id'] == $stock->id)
+                    {
+                    $order->addItem($stock->id, $recipe['name'], $amount, $recipe['price']);
+                    $this->session->set_userdata('order', (array)$order);
+                    }
+                    
+                }
     		}
     	}
         
@@ -111,12 +153,29 @@ class Sales extends Application{
         
         $order->save();
         
-        $this->data['order'] = $order->items;
+        $allorders = $order->details;
+        $orderitems = array();
+        $totalcost = 0;
+        
+        foreach($allorders as $orderings) {
+            $orderitems[] = array (
+                'name' => $orderings['name'],
+                'quantity' => $orderings['quantity'],
+                'price' => number_format((float)$orderings['price'], 2, '.', ''),
+                'subtotal' => number_format((float)$orderings['price'] * $orderings['quantity'], 2, '.', '')
+                );
+            $totalcost += $orderings['price'] * $orderings['quantity'];
+        }
+        
+        $this->data['order'] = $orderitems;
+        $this->data['totalcost'] = number_format((float)$totalcost, 2, '.', '');
+        
         $this->data['pagebody'] = 'sales_order';
         $this->data['total'] = $order->total();
-        //unsets order for the next one.
-        $this->session->unset_userdata('order');
+
+        $this->data['sales'] = $sellable;
     	$this->render();
+        
     }
     
     /*public function checkout() {
