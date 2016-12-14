@@ -1,7 +1,5 @@
 <?php
 
-define('REST_SERVER', 'http://a2-backend.local/maintenance');
-define('REST_PORT', $_SERVER['SERVER_PORT']);
 /**
  * Some recipes, and accessors.  
  */
@@ -19,9 +17,8 @@ class Recipes extends CI_Model {
 	{
         $this->rest->initialize(array('server'=>REST_SERVER));
         $this->rest->option(CURLOPT_PORT, REST_PORT);
-        echo 'test';
-        return $this->rest->get('/recipes/item/id/' . $key);
         
+        return $this->rest->get('/recipes/item/id/' . $key);
         
         /*
         $sql = sprintf("SELECT * from RECIPES where ID = %d", $which);
@@ -65,7 +62,7 @@ class Recipes extends CI_Model {
     public function getIngredientAmounts($recipeID){
         $this->rest->initialize(array('server'=>REST_SERVER));
         $this->rest->option(CURLOPT_PORT, REST_PORT);
-        return $this->rest->get('/recipes/item/amount/' . $key);
+        return $this->rest->get('/recipesupplies/item/amount/' . $key);
         
         /*
         $sql = sprintf("SELECT supplies.id, amount from SUPPLIES inner join RECIPESUPPLIES on SUPPLIES.id = RECIPESUPPLIES.supplyID inner join RECIPES on RECIPESUPPLIES.recipeID = RECIPES.ID where recipeID = %d", $recipeID); 
