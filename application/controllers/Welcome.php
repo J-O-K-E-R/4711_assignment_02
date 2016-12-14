@@ -10,6 +10,7 @@ class Welcome extends Application{
 
 	// some mock data for now.  Not hooked up to anything.
 	public function index(){
+		$this->load->helper('url');
         $this->data['pagetitle'] = 'Welcome';
 		$this->data['pagebody'] = 'homepage';
         $this->data['purchases'] = 0;

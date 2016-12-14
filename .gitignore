@@ -1,3 +1,4 @@
+=======Blank Line cause .gitignore doesn't read this=====================
 */config/development
 */logs/log-*.php
 !*/logs/index.html

@@ -8,6 +8,7 @@ $config['menu_choices'] = array(
         array('name' => 'Production', 'link' => '/production'),
         array('name' => 'Sales', 'link' => '/sales'),
         array('name' => 'Administrator', 'link' => '/administrator'),
+        array('name' => 'Toggle Role', 'link' => '/toggle'),
         )
     );
 
