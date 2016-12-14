@@ -87,7 +87,7 @@ class Administrator extends Application{
         redirect('/administrator/');
     }
     public function delete_recipe($id = null){
-        $this->recipes->delete($id);
+        $this->recipes->deleteRecipe($id);
         redirect('/administrator/', 'refresh');
     }
 
