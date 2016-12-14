@@ -23,7 +23,7 @@ class Application extends CI_Controller
 
 		//  Set basic view parameters
 		$this->data = array ();
-		$this->data['pagetitle'] = 'Quotes CMS';
+		$this->data['pagetitle'] = 'McDonalds';
 		$this->data['ci_version'] = (ENVIRONMENT === 'development') ? 'CodeIgniter Version <strong>'.CI_VERSION.'</strong>' : '';
         $this->data['userrole'] = $this->session->userdata('userrole');
         if($this->data['userrole'] == NULL)
@@ -42,7 +42,7 @@ class Application extends CI_Controller
         $this->data['menubar'] = $this->parser->parse('_menubar', $this->config->item('menu_choices'),true);
         $this->data['rolebar'] = $this->parser->parse('_rolebar', $this->data, true);
 		$this->data['content'] = $this->parser->parse($this->data['pagebody'], $this->data, true);
-		$this->parser->parse('template', $this->data);
+		$this->parser->parse($template, $this->data);
 	}
 
 }

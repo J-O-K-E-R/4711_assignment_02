@@ -32,8 +32,14 @@ class Production extends Application{
         {
             $ingredients = $this->recipes->getIngredients($recipe->id);
             $strIngredients = "";
+            $trigger = FALSE;
             foreach($ingredients as $ingredient){
-                $strIngredients .= ' ' . $ingredient->name;
+                if ($trigger == FALSE){
+                    $trigger = TRUE;
+                } else {
+                    $strIngredients .= ',';
+                }
+                $strIngredients .= $ingredient->amount . 'x' . ' ' . $ingredient->name;
             }
             
             $recipes[] = array ('name' => $recipe->name, 'description' => $strIngredients, 'id' => $recipe->id);

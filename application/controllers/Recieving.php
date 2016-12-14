@@ -31,7 +31,7 @@ class Recieving extends Application{
 
         foreach ($source as $supply)
         {
-            $supplies[] = array ('name' => $supply->name, 'on hand' => $supply->onHand, 'items per container' => $supply->itemsPerContainer);
+            $supplies[] = array ('name' => $supply->name, 'on hand' => $supply->onHand, 'items per container' => $supply->itemsPerContainer, 'id' => $supply->id);
         }
         $this->data['supplies'] = $supplies;
 
@@ -42,7 +42,7 @@ class Recieving extends Application{
 
     public function recieve(){
     	foreach ($this->supplies->getSupplies() as $supply) {
-    		$amount = $this->input->post($supply->name);
+    		$amount = $this->input->post($supply->id);
     		if ($amount > 0) {
     			$this->supplies->orderSupplies($supply->id,$amount);
     		}

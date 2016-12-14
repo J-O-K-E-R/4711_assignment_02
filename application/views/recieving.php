@@ -9,7 +9,7 @@
                 		<b>{name} x{items per container}:</b>
                 	</div>
                 	<div id="right">
-                		<input type="number" name="{name}" value="0" min="0" max="99">
+                		<input type="number" name="{id}" value="0" min="0" max="99">
                 	</div>
                 	<br><br><br>
              	</div>
