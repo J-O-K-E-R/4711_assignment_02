@@ -58,6 +58,14 @@ class Recipes extends CI_Model {
     public function createRecipe($recipe, $ingredients, $price) {
     	$this->rest->initialize(array('server' => REST_SERVER));
         $this->rest->option(CURLOPT_PORT, REST_PORT);
+        $params = array(
+            'recipe' => serialize($recipe),
+            'ingredients' => serialize($ingredients),
+            'price' => serialize($price)
+        );
+        $result = $this->rest->post('/recipes/', $params);
+        return $result;
+
         /*
         // create that entry
         $sql = sprintf("INSERT into RECIPES (name) VALUES ('%s')", $recipe->name);
@@ -84,6 +92,16 @@ class Recipes extends CI_Model {
     }
     
     public function updateRecipe($recipe, $ingredients, $price) {
+    	$this->rest->initialize(array('server' => REST_SERVER));
+        $this->rest->option(CURLOPT_PORT, REST_PORT);
+        $params = array(
+            'recipe' => serialize($recipe),
+            'ingredients' => serialize($ingredients),
+            'price' => serialize($price)
+        );
+        $result = $this->rest->post('/recipes/', $params);
+        return $result;
+        
     	/*
         $sql1 = sprintf("UPDATE RECIPES set name = '%'", $recipe->name);
         $this->db->query($sql1);
