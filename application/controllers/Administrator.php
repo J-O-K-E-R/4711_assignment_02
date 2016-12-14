@@ -83,11 +83,11 @@ class Administrator extends Application{
             $this->data['error'] = "Invalid inputs";
             redirect('/administrator/add_recipe');
         }
-        $this->recipes->createRecipe($item,$ingredients);
+        $this->recipes->createRecipe($item,$ingredients,$this->input->post('price'));
         redirect('/administrator/');
     }
     public function delete_recipe($id = null){
-        $this->recipes->delete($id);
+        $this->recipes->deleteRecipe($id);
         redirect('/administrator/', 'refresh');
     }
 

@@ -36,7 +36,8 @@
  * @filesource
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
-
+define('REST_SERVER', 'http://backend.local/maintenance');
+define('REST_PORT', $_SERVER['SERVER_PORT']);
 /**
  * Model Class
  *
