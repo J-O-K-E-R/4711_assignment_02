@@ -1,7 +1,5 @@
 <?php
 
-define('REST_SERVER', 'http://rest.local');
-define('REST_PORT', $_SERVER['SERVER_PORT']);
 /**
  * Some recipes, and accessors.  
  */
@@ -15,12 +13,12 @@ class Recipes extends CI_Model {
 	}
 
 	// retrieve a single recipe
-	public function get($key, $key2 = null)
+	public function get($key)
 	{
         $this->rest->initialize(array('server'=>REST_SERVER));
         $this->rest->option(CURLOPT_PORT, REST_PORT);
-        return $this->rest->get('/recipes/item/id/' . $key);
         
+        return $this->rest->get('/recipes/item/id/' . $key);
         
         /*
         $sql = sprintf("SELECT * from RECIPES where ID = %d", $which);
@@ -36,7 +34,7 @@ class Recipes extends CI_Model {
 	{
         $this->rest->initialize(array('server' => REST_SERVER));
         $this->rest->option(CURLOPT_PORT, REST_PORT);
-        $result = $this->rest->get('recipes');
+        $result = $this->rest->get('/recipes');
         return $result;
         
         
@@ -51,7 +49,7 @@ class Recipes extends CI_Model {
     public function getIngredients($recipeID){
         $this->rest->initialize(array('server'=>REST_SERVER));
         $this->rest->option(CURLOPT_PORT, REST_PORT);
-        return $this->rest->get('/recipes/item/description/' . $key);
+        return $this->rest->get('/recipesupplies/id/' . $recipeID);
         
         
         /*
@@ -64,7 +62,7 @@ class Recipes extends CI_Model {
     public function getIngredientAmounts($recipeID){
         $this->rest->initialize(array('server'=>REST_SERVER));
         $this->rest->option(CURLOPT_PORT, REST_PORT);
-        return $this->rest->get('/recipes/item/amount/' . $key);
+        return $this->rest->get('/recipesupplies/item/amount/' . $key);
         
         /*
         $sql = sprintf("SELECT supplies.id, amount from SUPPLIES inner join RECIPESUPPLIES on SUPPLIES.id = RECIPESUPPLIES.supplyID inner join RECIPES on RECIPESUPPLIES.recipeID = RECIPES.ID where recipeID = %d", $recipeID); 
