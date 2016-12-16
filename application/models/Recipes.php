@@ -36,6 +36,12 @@ class Recipes extends CI_Model {
         return $query->result();
     }
     
+    public function getIngredientsCost($recipeID) {
+        $sql = sprintf("Select supplies.cost, amount from supplies inner join recipesupplies on supplies.id = recipesupplies.supplyID inner join recipes on recipesupplies.recipeid = recipes.id where recipeID = %d", $recipeID);
+        $query = $this->db->query($sql);
+        return $query->result();
+    }
+    
     public function getIngredientAmounts($recipeID){
         $sql = sprintf("SELECT supplies.id, amount from SUPPLIES inner join RECIPESUPPLIES on SUPPLIES.id = RECIPESUPPLIES.supplyID inner join RECIPES on RECIPESUPPLIES.recipeID = RECIPES.ID where recipeID = %d", $recipeID); 
         $query = $this->db->query($sql); 
