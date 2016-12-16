@@ -55,6 +55,7 @@ class Recipes extends CI_Model {
         */
     }
     
+
     public function createRecipe($recipe, $ingredients, $price) {
     	$this->rest->initialize(array('server' => REST_SERVER));
         $this->rest->option(CURLOPT_PORT, REST_PORT);
