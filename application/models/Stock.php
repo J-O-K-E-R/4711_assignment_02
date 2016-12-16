@@ -15,19 +15,19 @@ class Stock extends CI_Model {
 	// get all the stock for a access in the controllers.
 	public function getStock()
 	{
-		$sql = sprintf("SELECT * from STOCK");
-        $query = $this->db->query($sql);
-        return $query->result();
+        $this->rest->initialize(array('server' => REST_SERVER));
+        $this->rest->option(CURLOPT_PORT, REST_PORT);
+        $result = $this->rest->get('/stock/');
+        return $result;
 	}
     
     // retrieve a single stock
 	public function get($which)
 	{
-		$sql = sprintf("SELECT * from STOCK where ID = %d", $which);
-        $query = $this->db->query($sql);
-        $result = $query->result();
-        $reset = reset($result);
-        return $reset;
+		$this->rest->initialize(array('server' => REST_SERVER));
+        $this->rest->option(CURLOPT_PORT, REST_PORT);
+        $result = $this->rest->get('/stock/id/' . $which);
+        return $result;
 	}
         
     public function buildStock($stockID, $amount){
@@ -46,7 +46,12 @@ class Stock extends CI_Model {
     }
     
     public function update($stock){ 
-        $sql = sprintf("UPDATE STOCK set name = '%s', price = %d, quantity = %d where id = %d", $stock->name, $stock->price, $stock->quantity, $stock->id);
-        $this->db->query($sql); 
+    	$this->rest->initialize(array('server' => REST_SERVER));
+        $this->rest->option(CURLOPT_PORT, REST_PORT);
+        $params = array(
+            'stock' => serialize($stock)
+        );
+        $result = $this->rest->put('/stock/', $params);
+        return $result;
     } 
 }

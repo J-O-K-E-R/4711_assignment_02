@@ -16,6 +16,13 @@
                     <input class="form-control" name="name" id="recipe_name"/>
                 </td>
             </tr>
+            <tr>
+                <td>Recipe Price</td>
+                <td>
+                    <input class="form-control" name="price" id="recipe_price"/>
+                </td>
+            </tr>
+            <br><br>
             {supplies}
             <tr>
                 <td>Number of: {name}s</td>

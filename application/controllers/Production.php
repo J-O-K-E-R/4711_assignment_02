@@ -58,7 +58,7 @@ class Production extends Application{
     	foreach ($recipes as $recipe) {
     		$amount = $this->input->post($recipe->id);
     		if ($amount != 0) {
-    			$ingredients = $this->recipes->getIngredientAmounts($recipe->id);
+    			$ingredients = $this->recipes->getIngredients($recipe->id);
     			$flag = true;
     			foreach ($ingredients as $ingredient) {
                     
